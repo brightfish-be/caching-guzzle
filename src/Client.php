@@ -1,4 +1,4 @@
-<?php namespace CachingGuzzle;
+<?php namespace Brightfish\CachingGuzzle;
 
 use GuzzleHttp\HandlerStack;
 use Psr\SimpleCache\CacheInterface;

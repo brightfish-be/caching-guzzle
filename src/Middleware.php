@@ -1,4 +1,4 @@
-<?php namespace CachingGuzzle;
+<?php namespace Brightfish\CachingGuzzle;
 
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\UriInterface;
