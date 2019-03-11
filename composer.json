@@ -17,5 +17,7 @@
             "email": "a.coolsaet@brightfish.be",
             "homepage": "https://brightfish.be"
         }
-    ]
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
