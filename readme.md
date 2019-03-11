@@ -5,7 +5,7 @@ implementing the PSR-16 caching interface.
 
 ## Installation
 ```
-composer require "brightfish/caching-guzzle"
+composer require brightfish/caching-guzzle
 ```
 
 ## Using the wrapper (with Laravel)

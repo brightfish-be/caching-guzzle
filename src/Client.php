@@ -14,7 +14,7 @@ use GuzzleHttp\Client as GuzzleClient;
 class Client extends GuzzleClient
 {
     /**
-     * Create a middleware stack
+     * Create a middleware stack and instantiate Guzzle
      * @inheritdoc
      * @param array $config
      */

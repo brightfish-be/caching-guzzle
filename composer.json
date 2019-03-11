@@ -5,7 +5,7 @@
     "type": "library",
     "keywords": ["guzzle", "middleware", "cache", "laravel"],
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.1.2",
         "guzzlehttp/guzzle": "^6.3",
         "psr/simple-cache": "^1.0"
     },
