@@ -1,0 +1,21 @@
+{
+    "name": "brightfish/caching-guzzle",
+    "description": "Caching HTTP responses through Guzzle middleware",
+    "version": "1.0.0",
+    "type": "library",
+    "keywords": ["guzzle", "middleware", "cache", "laravel"],
+    "require": {
+        "php": ">=7.2",
+        "guzzlehttp/guzzle": "^6.3",
+        "psr/simple-cache": "^1.0"
+    },
+    "license": "GPL-3.0-only",
+    "homepage": "https://github.com/brightfish-be/caching-guzzle#readme",
+    "authors": [
+        {
+            "name": "Arnaud Coolsaet",
+            "email": "a.coolsaet@brightfish.be",
+            "homepage": "https://brightfish.be"
+        }
+    ]
+}
