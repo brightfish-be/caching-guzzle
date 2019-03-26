@@ -10,6 +10,8 @@ composer require brightfish/caching-guzzle
 
 ## Using the wrapper (with Laravel)
 ```
+use Brightfish\CachingGuzzle\Client;
+
 /** @var \Psr\SimpleCache\CacheInterface $store */
 $store = app('cache')->store('database');
 
@@ -37,7 +39,7 @@ $cached_response = $store->get('//example.org/api/resource');
 ```
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
-use CachingGuzzle\Middleware;
+use Brightfish\CachingGuzzle\Middleware;
 
 $store = app('cache')->store('database');
 $handler = new CacheMiddleware($store, 3600);
@@ -85,4 +87,5 @@ $handler = new CacheMiddleware($cache, $ttl, $log);
 ```
 
 ## License
-The GNU General Public License (GPL). Please see License File for more information.
+GNU General Public License (GPL). Please see License File for more information.
+
