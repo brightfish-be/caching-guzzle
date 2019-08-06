@@ -126,9 +126,9 @@ class Middleware
     protected function save(string $key, ?ResponseInterface $response = null, int $ttl): bool
     {
         if ($response && $response->getStatusCode() === 200) {
-            $this->cache->set($key, (string)$response->getBody(), $ttl);
+            $saved = $this->cache->set($key, (string)$response->getBody(), $ttl) ?? true;
             $response->getBody()->rewind();
-            return true;
+            return $saved;
         }
 
         return false;
