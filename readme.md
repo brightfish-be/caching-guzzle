@@ -17,7 +17,7 @@ $store = app('cache')->store('database');
 
 $client = new Client($store, [
     'cache_ttl' => 12345,
-    'cache_log' => app()->environment('local')
+    'cache_log' => app()->environment('local'),
     'base_uri' => 'https://example.org/api'
 ]);
 
@@ -57,7 +57,7 @@ $client = new Client(['handler' => $stack]);
 
 ```
 $response_1 = $client->get('/resource', [
-    'cache' => false
+    'cache' => false,
     'cache_ttl' => 3600
 ]);
 ```
@@ -71,7 +71,7 @@ $response_1 = $client->get('/resource', [
 ```
 $client = new Client($cache, [
     'cache_ttl' => 12345,
-    'cache_log' => app()->environment('local')
+    'cache_log' => app()->environment('local'),
     'base_uri' => 'https://example.org/api'
 ]);
 ```
