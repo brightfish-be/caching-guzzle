@@ -1,43 +1,44 @@
-<?php namespace Brightfish\CachingGuzzle;
+<?php
+
+namespace Brightfish\CachingGuzzle;
 
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\UriInterface;
 use Psr\SimpleCache\CacheInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Promise\FulfilledPromise;
+use GuzzleHttp\Promise\PromiseInterface;
 use Psr\SimpleCache\InvalidArgumentException;
 
 /**
- * Guzzle middleware, caches Guzzle HTTP responses
+ * Guzzle middleware, caches Guzzle HTTP responses.
  *
- * @package CachingGuzzle
  * @copyleft 2017 Brightfish
  * @author Arnaud Coolsaet <a.coolsaet@brightfish.be>
  */
 class Middleware
 {
     /**
-     * PSR-16 Cache interface implementation
+     * PSR-16 Cache interface implementation.
      * @var CacheInterface
      */
     protected $cache;
 
     /**
-     * Cache time to live
+     * Cache time to live.
      * @var int
      */
     protected $ttl = 0;
 
     /**
-     * Log the cache requests
+     * Log the cache requests.
      * @var bool
      */
     protected $track = false;
 
     /**
-     * Cache the laravel cache driver instance
+     * Cache the laravel cache driver instance.
      * @param CacheInterface $cache             Cache handler implementation
      * @param int $ttl                          Time to live in minutes
      * @param bool $log                         Whether to log the cache requests
@@ -50,7 +51,7 @@ class Middleware
     }
 
     /**
-     * The middleware handler
+     * The middleware handler.
      * @param callable $handler
      * @return callable
      */
@@ -71,7 +72,6 @@ class Middleware
 
             return $promise->then(
                 function (ResponseInterface $response) use ($options, $cacheKey) {
-
                     if ($cacheKey) {
                         $this->save($cacheKey, $response, $options['cache_ttl'] ?? $this->ttl);
                     }
@@ -83,17 +83,17 @@ class Middleware
     }
 
     /**
-     * Create the key which will reference the cache entry
+     * Create the key which will reference the cache entry.
      * @param UriInterface $uri
      * @return string
      */
     protected function makeKey(UriInterface $uri)
     {
-        return (string)preg_replace('#(https?\:)#', '', (string)$uri);
+        return (string) preg_replace('#(https?\:)#', '', (string) $uri);
     }
 
     /**
-     * Cache the data
+     * Cache the data.
      * @param string $key
      * @return FulfilledPromise|null
      * @throws InvalidArgumentException
@@ -116,18 +116,17 @@ class Middleware
     }
 
     /**
-     * Persist the data
+     * Persist the data.
      * @param string $key
      * @param ResponseInterface|null $response
      * @param int $ttl
      * @return bool
      * @throws InvalidArgumentException
      */
-    protected function save(string $key, ?ResponseInterface $response = null, int $ttl): bool
+    protected function save(string $key, ?ResponseInterface $response, int $ttl): bool
     {
         if ($response && $response->getStatusCode() === 200) {
-
-            $saved = $this->cache->set($key, (string)$response->getBody(), $ttl) ?? true;
+            $saved = $this->cache->set($key, (string) $response->getBody(), $ttl) ?? true;
 
             if ($response->getBody()->isSeekable()) {
                 $response->getBody()->rewind();
@@ -140,7 +139,7 @@ class Middleware
     }
 
     /**
-     * Track the cache request to a log file
+     * Track the cache request to a log file.
      * @param string $cacheKey
      * @return mixed
      */

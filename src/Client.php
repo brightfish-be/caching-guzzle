@@ -1,13 +1,14 @@
-<?php namespace Brightfish\CachingGuzzle;
+<?php
+
+namespace Brightfish\CachingGuzzle;
 
 use GuzzleHttp\HandlerStack;
 use Psr\SimpleCache\CacheInterface;
 use GuzzleHttp\Client as GuzzleClient;
 
 /**
- * Guzzle client wrapper, instantiates the middleware
+ * Guzzle client wrapper, instantiates the middleware.
  *
- * @package CachingGuzzle
  * @copyleft 2019 Brightfish
  * @author Arnaud Coolsaet <a.coolsaet@brightfish.be>
  */
@@ -15,7 +16,7 @@ class Client extends GuzzleClient
 {
     /**
      * Create a middleware stack and instantiate Guzzle
-     * @inheritdoc
+     * {@inheritdoc}
      * @param array $config
      */
     public function __construct(CacheInterface $cache, array $config = [])
