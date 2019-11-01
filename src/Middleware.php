@@ -14,7 +14,7 @@ use Psr\SimpleCache\InvalidArgumentException;
 /**
  * Guzzle middleware, caches Guzzle HTTP responses.
  *
- * @copyleft 2017 Brightfish
+ * @copyleft 2019 Brightfish
  * @author Arnaud Coolsaet <a.coolsaet@brightfish.be>
  */
 class Middleware

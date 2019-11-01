@@ -20,7 +20,7 @@ use GuzzleHttp\HandlerStack;
 use Brightfish\CachingGuzzle\Middleware;
 
 $store = app('cache')->store('database');
-$handler = new CacheMiddleware($store, 3600);
+$handler = new Middleware($store, 3600);
 $stack = HandlerStack::create();
 $stack->push($handler);
 $client = new Client(['handler' => $stack]);
