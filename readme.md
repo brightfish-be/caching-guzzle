@@ -13,6 +13,19 @@ implementing the PSR-16 caching interface.
 composer require brightfish/caching-guzzle
 ```
 
+## Using the middleware (with Laravel)
+```
+use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
+use Brightfish\CachingGuzzle\Middleware;
+
+$store = app('cache')->store('database');
+$handler = new CacheMiddleware($store, 3600);
+$stack = HandlerStack::create();
+$stack->push($handler);
+$client = new Client(['handler' => $stack]);
+```
+
 ## Using the wrapper (with Laravel)
 ```
 use Brightfish\CachingGuzzle\Client;
@@ -38,19 +51,6 @@ $response_2 = $client->post('/resource/84', [
 
 # Get response_1 from cache
 $cached_response = $store->get('//example.org/api/resource');
-```
-
-## Using the middleware (with Laravel)
-```
-use GuzzleHttp\Client;
-use GuzzleHttp\HandlerStack;
-use Brightfish\CachingGuzzle\Middleware;
-
-$store = app('cache')->store('database');
-$handler = new CacheMiddleware($store, 3600);
-$stack = HandlerStack::create();
-$stack->push($handler);
-$client = new Client(['handler' => $stack]);
 ```
 
 ## Available options
@@ -93,4 +93,3 @@ $handler = new CacheMiddleware($cache, $ttl, $log);
 
 ## License
 GNU General Public License (GPL). Please see License File for more information.
-
