@@ -3,3 +3,7 @@ preset: laravel
 disabled:
   - hash_to_slash_comment
 
+finder:
+  exclude:
+    - vendor
+    - tests

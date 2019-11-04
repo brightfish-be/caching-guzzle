@@ -2,9 +2,9 @@
 
 namespace Brightfish\CachingGuzzle;
 
+use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\HandlerStack;
 use Psr\SimpleCache\CacheInterface;
-use GuzzleHttp\Client as GuzzleClient;
 
 /**
  * Guzzle client wrapper, instantiates the middleware.
