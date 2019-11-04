@@ -1,10 +1,9 @@
 # HTTP cache middleware for Guzzle
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/brightfish-be/caching-guzzle?color=blue&label=Latest%20version&style=flat-square)
-![Travis CI](https://img.shields.io/travis/com/brightfishbe/caching-guzzle/master?label=Build&style=flat-square)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/brightfish-be/caching-guzzle?color=blue&label=Latest%20version&style=flat-square)](https://github.com/brightfish-be/caching-guzzle/releases)
+[![Travis CI](https://img.shields.io/travis/com/brightfishbe/caching-guzzle/master?label=Build&style=flat-square)](https://travis-ci.com/brightfish-be/caching-guzzle)
 [![StyleCI](https://styleci.io/repos/175029173/shield)](https://styleci.io/repos/175029173)
-![Packagist](https://img.shields.io/packagist/dt/brightfish/caching-guzzle?label=Total%20downloads&style=flat-square)
-
+[![Packagist](https://img.shields.io/packagist/dt/brightfish/caching-guzzle?label=Total%20downloads&style=flat-square)](https://packagist.org/packages/brightfish/caching-guzzle)
 
 Simple caching middleware for Guzzle, works well with Laravel or with any cache system 
 implementing the PSR-16 caching interface.  
