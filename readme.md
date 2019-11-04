@@ -1,4 +1,4 @@
-# Guzzle caching
+# HTTP cache middleware for Guzzle
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/brightfish-be/caching-guzzle?color=blue&label=Latest%20version&style=flat-square)
 [![StyleCI](https://styleci.io/repos/175029173/shield)](https://styleci.io/repos/175029173)
@@ -35,7 +35,7 @@ $store = app('cache')->store('database');
 
 $client = new Client($store, [
     'cache_ttl' => 12345,
-    'cache_log' => app()->environment('local'),
+    'cache_log' => false,
     'base_uri' => 'https://example.org/api'
 ]);
 
