@@ -1,6 +1,7 @@
 # HTTP cache middleware for Guzzle
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/brightfish-be/caching-guzzle?color=blue&label=Latest%20version&style=flat-square)
+![Travis CI](https://img.shields.io/travis/com/brightfishbe/caching-guzzle/master?label=Build&style=flat-square)
 [![StyleCI](https://styleci.io/repos/175029173/shield)](https://styleci.io/repos/175029173)
 ![Packagist](https://img.shields.io/packagist/dt/brightfish/caching-guzzle?label=Total%20downloads&style=flat-square)
 
