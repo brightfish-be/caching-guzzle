@@ -3,27 +3,23 @@
          backupStaticAttributes="false"
          bootstrap="vendor/autoload.php"
          colors="true"
+         verbose="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="Feature Tests">
+        <testsuite name="Brightfish Test Suite">
             <directory suffix="Test.php">./tests/Feature</directory>
-        </testsuite>
-
-        <testsuite name="Unit Tests">
-            <directory suffix="Test.php">./tests/Unit</directory>
         </testsuite>
     </testsuites>
     <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./app</directory>
+        <whitelist>
+            <directory suffix=".php">./src</directory>
         </whitelist>
     </filter>
     <php>
         <env name="APP_ENV" value="development"/>
-        <env name="CACHE_DRIVER" value="array"/>
     </php>
 </phpunit>

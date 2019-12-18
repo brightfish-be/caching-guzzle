@@ -58,7 +58,6 @@ class Middleware
     public function __invoke(callable $handler): callable
     {
         return function (RequestInterface $request, array $options) use (&$handler) {
-
             # If the request allows caching, create a key to fetch/store the response
             $cacheKey = ($options['cache'] ?? true) ? $this->makeKey($request->getUri()) : '';
 
@@ -89,7 +88,7 @@ class Middleware
      */
     protected function makeKey(UriInterface $uri)
     {
-        return (string) preg_replace('#(https?\:)#', '', (string) $uri);
+        return (string)preg_replace('#(https?:)#', '', (string)$uri);
     }
 
     /**
@@ -126,7 +125,7 @@ class Middleware
     protected function save(string $key, ?ResponseInterface $response, int $ttl): bool
     {
         if ($response && $response->getStatusCode() === 200) {
-            $saved = $this->cache->set($key, (string) $response->getBody(), $ttl) ?? true;
+            $saved = $this->cache->set($key, (string)$response->getBody(), $ttl) ?? true;
 
             if ($response->getBody()->isSeekable()) {
                 $response->getBody()->rewind();

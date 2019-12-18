@@ -1,14 +1,9 @@
 {
     "name": "brightfish/caching-guzzle",
     "description": "Cache HTTP responses through Guzzle middleware",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "type": "library",
     "keywords": ["guzzle", "middleware", "cache", "laravel", "http-cache"],
-    "require": {
-        "php": ">=7.1.2",
-        "guzzlehttp/guzzle": "^6.3",
-        "psr/simple-cache": "^1.0"
-    },
     "license": "GPL-3.0-only",
     "homepage": "https://github.com/brightfish-be/caching-guzzle#readme",
     "authors": [
@@ -18,6 +13,14 @@
             "homepage": "https://brightfish.be"
         }
     ],
+    "require": {
+        "php": ">=7.1.2",
+        "guzzlehttp/guzzle": "^6.3",
+        "psr/simple-cache": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.4"
+    },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "autoload": {
@@ -25,12 +28,12 @@
             "Brightfish\\CachingGuzzle\\": "src"
         }
     },
-    "require-dev": {
-        "phpunit/phpunit": "^8.4"
-    },
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
         }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit tests"
     }
 }
