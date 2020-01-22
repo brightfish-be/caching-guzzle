@@ -19,13 +19,15 @@ class MiddlewareFeatureTest extends FeatureTestCase
 
     public function testCaching()
     {
-        $handler = new Middleware($this->store, 3600);
+        $middleware = new Middleware($this->store, 3600);
 
-        $response = new Response(200, [], static::TEST_STR);
-        $mock = new MockHandler([$response]);
+        $mock = new MockHandler([
+            new Response(200, [], static::TEST_STR),
+            new Response(200, [], static::TEST_STR)
+        ]);
 
         $stack = HandlerStack::create($mock);
-        $stack->push($handler);
+        $stack->push($middleware);
 
         $client = new Client([
             'handler' => $stack
@@ -36,6 +38,14 @@ class MiddlewareFeatureTest extends FeatureTestCase
         $key = $this->getCacheKeyFromUrl(static::TEST_URL);
 
         $cached = $this->store->get($key);
+
+        $this->assertStringContainsString(static::TEST_STR, $cached);
+
+        # Request with custom key
+
+        $client->get(static::TEST_URL, ['cache_key' => 'test_key']);
+
+        $cached = $this->store->get('test_key');
 
         $this->assertStringContainsString(static::TEST_STR, $cached);
 

@@ -58,11 +58,14 @@ class Middleware
     public function __invoke(callable $handler): callable
     {
         return function (RequestInterface $request, array $options) use (&$handler) {
-            # If the request allows caching, create a key to fetch/store the response
-            $cacheKey = ($options['cache'] ?? true) ? $this->makeKey($request->getUri()) : '';
+            # Does the request allow caching?
+            $cache = $options['cache'] ?? true;
+
+            # Create the key
+            $key = $cache ? ($options['cache_key'] ?? $this->makeKey($request->getUri())) : '';
 
             # Get from cache if cached
-            if ($cacheKey && $entry = $this->get($cacheKey)) {
+            if ($key && $entry = $this->get($key)) {
                 return $entry;
             }
 
@@ -70,9 +73,9 @@ class Middleware
             $promise = $handler($request, $options);
 
             return $promise->then(
-                function (ResponseInterface $response) use ($options, $cacheKey) {
-                    if ($cacheKey) {
-                        $this->save($cacheKey, $response, $options['cache_ttl'] ?? $this->ttl);
+                function (ResponseInterface $response) use ($options, $key) {
+                    if ($key) {
+                        $this->save($key, $response, $options['cache_ttl'] ?? $this->ttl);
                     }
 
                     return $response;

@@ -26,22 +26,11 @@ $stack->push($handler);
 $client = new Client(['handler' => $stack]);
 ```
 
-## Using the wrapper (with Laravel)
+## Making requests and retrieving from cache
 ```
-use Brightfish\CachingGuzzle\Client;
-
-/** @var \Psr\SimpleCache\CacheInterface $store */
-$store = app('cache')->store('database');
-
-$client = new Client($store, [
-    'cache_ttl' => 12345,
-    'cache_log' => false,
-    'base_uri' => 'https://example.org/api'
-]);
-
-# This response will be cached
+# This response will be cached for 60s
 $response_1 = $client->get('/resource', [
-    'cache_ttl' => 3600
+    'cache_ttl' => 60
 ]);
 
 # This response will not be cached
@@ -49,8 +38,29 @@ $response_2 = $client->post('/resource/84', [
     'cache' => false
 ]);
 
+# This response will be cached with a custom key
+$response_3 = $client->post('/resource/84', [
+    'cache_key' => 'my-key'
+]);
+
 # Get response_1 from cache
-$cached_response = $store->get('//example.org/api/resource');
+$cached_response_1 = $store->get('//example.org/api/resource');
+
+# Get response_3 from cache
+$cached_response_3 = $store->get('my-key');
+```
+
+## Using the wrapper
+Instead of manually configuring the Guzzle client and the caching middleware, it is also possible
+to instantiate the Client class provided in this package. This way, the binding of the middleware is done for you.
+```
+use Brightfish\CachingGuzzle\Client;
+
+$client = new Client($psrCompatibleCache, [
+    'cache_ttl' => 12345,
+    'cache_log' => false,
+    'base_uri' => 'https://example.org/api'
+]);
 ```
 
 ## Available options
@@ -59,6 +69,7 @@ $cached_response = $store->get('//example.org/api/resource');
 
 - `$cache (bool)` Whether to disable the cache for this specific request
 - `$cache_ttl (int)` Specific time to live in minutes for this request
+- `$cache_key (string)` Custom cache key to override the default request URI key
 
 ```
 $response_1 = $client->get('/resource', [
@@ -92,4 +103,4 @@ $handler = new CacheMiddleware($cache, $ttl, $log);
 ```
 
 ## License
-GNU General Public License (GPL). Please see License File for more information.
+GNU General Public License (GPL). Please see the license file for more information.
