@@ -15,7 +15,7 @@ use Psr\SimpleCache\CacheInterface;
 class Client extends GuzzleClient
 {
     /**
-     * Create a middleware stack and instantiate Guzzle
+     * Create a middleware stack and instantiate Guzzle.
      * {@inheritdoc}
      * @param array $config
      */
@@ -25,12 +25,12 @@ class Client extends GuzzleClient
             $config['handler'] = HandlerStack::create();
         }
 
-        $ttl = $config['cache_ttl'] ?? 3600;
+        $ttl = $config['cache_ttl'] ?? 60;
         $log = $config['cache_log'] ?? false;
 
         $config['handler']->push(new Middleware($cache, $ttl, $log));
 
-        unset($config['cache'], $config['cache_ttl'], $config['cache_log']);
+        unset($config['cache'], $config['cache_ttl'], $config['cache_log'], $config['cache_key']);
 
         parent::__construct($config);
     }

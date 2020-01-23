@@ -13,40 +13,44 @@ implementing the PSR-16 caching interface.
 composer require brightfish/caching-guzzle
 ```
 
-## Using the middleware (with Laravel)
+## Using the middleware
 ```
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use Brightfish\CachingGuzzle\Middleware;
 
-$store = app('cache')->store('database');
+$store = app('cache')->store('database'); // Laravel
 $handler = new Middleware($store, 3600);
 $stack = HandlerStack::create();
 $stack->push($handler);
-$client = new Client(['handler' => $stack]);
+$client = new Client([
+    'handler' => $stack,
+    'base_uri' => 'https://example.org/api/'
+]);
 ```
 
 ## Making requests and retrieving from cache
 ```
-# This response will be cached for 60s
-$response_1 = $client->get('/resource', [
+# This response will be cached for 60s (same as default).
+$response_1 = $client->get('resource', [
     'cache_ttl' => 60
 ]);
 
-# This response will not be cached
-$response_2 = $client->post('/resource/84', [
+# This response will not be cached.
+$response_2 = $client->post('resource/84', [
     'cache' => false
 ]);
 
-# This response will be cached with a custom key
-$response_3 = $client->post('/resource/84', [
-    'cache_key' => 'my-key'
+# This response will be cached forever with a custom key.
+$response_3 = $client->post('resource/84', [
+    'cache_key' => 'my-key',
+    'cache_ttl' => -1
 ]);
 
-# Get response_1 from cache
+# Get response_1 from cache.
 $cached_response_1 = $store->get('//example.org/api/resource');
 
-# Get response_3 from cache
+# Get response_3 from cache.
 $cached_response_3 = $store->get('my-key');
 ```
 
@@ -57,49 +61,49 @@ to instantiate the Client class provided in this package. This way, the binding 
 use Brightfish\CachingGuzzle\Client;
 
 $client = new Client($psrCompatibleCache, [
-    'cache_ttl' => 12345,
+    'cache_ttl' => 3600,
     'cache_log' => false,
-    'base_uri' => 'https://example.org/api'
+    'base_uri' => 'https://example.org/api/'
 ]);
 ```
 
 ## Available options
 
-### Per request:
+### Per request
 
-- `$cache (bool)` Whether to disable the cache for this specific request
-- `$cache_ttl (int)` Specific time to live in minutes for this request
-- `$cache_key (string)` Custom cache key to override the default request URI key
+- `$cache` (bool): whether to disable the cache for this specific request.
+- `$cache_ttl` (int): cache duration in seconds for this response, use `-1` to cache forever.
+- `$cache_key` (string): custom cache key to override the default one based on the request URI.
 
 ```
-$response_1 = $client->get('/resource', [
+$response_1 = $client->get('resource', [
     'cache' => false,
     'cache_ttl' => 3600
 ]);
 ```
 
-### When instantiating the wrapper, options can be passed along with the Guzzle options:  
+### When instantiating the middleware
 
-- `$cache (\Psr\SimpleCache\CacheInterface)` Cache handler implementation
-- `$cache_ttl (int)` Default time to live in minutes
-- `$cache_log (bool)` Whether to log the cache requests (in Laravel)  
+- `$cache` (\Psr\SimpleCache\CacheInterface): cache handler implementation.
+- `$ttl` (int): default cache duration in seconds [default: 60].
+- `$log` (bool): whether to log the cache requests [default: false].  
+
+```
+$handler = new CacheMiddleware($cache, $ttl, $log);
+```
+
+### When instantiating the wrapper, pass options along with the Guzzle ones
+
+- `$cache` (\Psr\SimpleCache\CacheInterface): cache handler implementation.
+- `$cache_ttl` (int): default cache duration in seconds [default: 60].
+- `$cache_log` (bool): whether to log the cache requests [default: false].
 
 ```
 $client = new Client($cache, [
     'cache_ttl' => 12345,
-    'cache_log' => app()->environment('local'),
-    'base_uri' => 'https://example.org/api'
+    'cache_log' => true,
+    'base_uri' => 'https://example.org/api/'
 ]);
-```
-
-### When instantiating the middleware:  
-
-- `$cache (\Psr\SimpleCache\CacheInterface)` Cache handler implementation
-- `$ttl (int)` Default time to live in minutes
-- `$log (bool)` Whether to log the cache requests (in Laravel)  
-
-```
-$handler = new CacheMiddleware($cache, $ttl, $log);
 ```
 
 ## License

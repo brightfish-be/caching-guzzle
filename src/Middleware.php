@@ -26,10 +26,10 @@ class Middleware
     protected $cache;
 
     /**
-     * Cache time to live.
-     * @var int
+     * Duration to live in cache, default to 1 min.
+     * @var int Seconds
      */
-    protected $ttl = 0;
+    protected $ttl = 60;
 
     /**
      * Log the cache requests.
@@ -40,10 +40,10 @@ class Middleware
     /**
      * Cache the laravel cache driver instance.
      * @param CacheInterface $cache             Cache handler implementation
-     * @param int $ttl                          Time to live in minutes
+     * @param int $ttl                          Default cache duration in seconds
      * @param bool $log                         Whether to log the cache requests
      */
-    public function __construct(CacheInterface $cache, int $ttl = 0, bool $log = false)
+    public function __construct(CacheInterface $cache, int $ttl = 60, bool $log = false)
     {
         $this->cache = $cache;
         $this->ttl = $ttl;
@@ -58,13 +58,10 @@ class Middleware
     public function __invoke(callable $handler): callable
     {
         return function (RequestInterface $request, array $options) use (&$handler) {
-            # Does the request allow caching?
-            $cache = $options['cache'] ?? true;
+            # Create the cache key
+            $key = $this->makeKey($options, $request->getUri());
 
-            # Create the key
-            $key = $cache ? ($options['cache_key'] ?? $this->makeKey($request->getUri())) : '';
-
-            # Get from cache if cached
+            # Try to get from cache
             if ($key && $entry = $this->get($key)) {
                 return $entry;
             }
@@ -74,8 +71,8 @@ class Middleware
 
             return $promise->then(
                 function (ResponseInterface $response) use ($options, $key) {
-                    if ($key) {
-                        $this->save($key, $response, $options['cache_ttl'] ?? $this->ttl);
+                    if ($key && $ttl = $this->getTTL($options)) {
+                        $this->save($key, $response, $ttl);
                     }
 
                     return $response;
@@ -86,12 +83,33 @@ class Middleware
 
     /**
      * Create the key which will reference the cache entry.
+     * @param array $options
      * @param UriInterface $uri
      * @return string
      */
-    protected function makeKey(UriInterface $uri)
+    protected function makeKey(array $options, UriInterface $uri): string
     {
-        return (string)preg_replace('#(https?:)#', '', (string)$uri);
+        # Does the specific request allow caching?
+        $cache = $options['cache'] ?? true;
+
+        # Either return the custom passed key or the request URL minus the protocol.
+        return $cache
+            ? ($options['cache_key'] ?? preg_replace('#(https?:)#', '', (string)$uri))
+            : '';
+    }
+
+    /**
+     * Get duration the data should stay in cache.
+     * @param array $options
+     * @return int $seconds
+     */
+    protected function getTTL(array $options): int
+    {
+        $duration = $options['cache_ttl'] ?? $this->ttl;
+
+        $duration = $duration !== -1 ? $duration : 631152000;
+
+        return $duration;
     }
 
     /**
