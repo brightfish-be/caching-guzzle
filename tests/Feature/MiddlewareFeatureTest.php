@@ -8,6 +8,8 @@ use GuzzleHttp\HandlerStack;
 use Brightfish\CachingGuzzle\Middleware;
 use GuzzleHttp\Psr7\Response;
 use Tests\FeatureTestCase;
+use function GuzzleHttp\Promise\settle;
+use function GuzzleHttp\Promise\unwrap;
 
 class MiddlewareFeatureTest extends FeatureTestCase
 {
@@ -17,7 +19,7 @@ class MiddlewareFeatureTest extends FeatureTestCase
     /** @var string */
     const TEST_STR = 'I\'m a duck!';
 
-    public function testCaching()
+    public function test_caching()
     {
         $middleware = new Middleware($this->store, 3600);
 
@@ -50,5 +52,33 @@ class MiddlewareFeatureTest extends FeatureTestCase
         $this->assertStringContainsString(static::TEST_STR, $cached);
 
         // echo PHP_EOL . 'MiddlewareFeatureTest response: ' . $cached . PHP_EOL;
+    }
+
+    public function test_caching_with_promised_request()
+    {
+        $middleware = new Middleware($this->store, 3600);
+
+        $mock = new MockHandler([
+            new Response(200, [], static::TEST_STR),
+            new Response(200, [], static::TEST_STR)
+        ]);
+
+        $stack = HandlerStack::create($mock);
+        $stack->push($middleware);
+
+        $client = new Client([
+            'handler' => $stack
+        ]);
+
+        $promises = [
+            'prom_1' => $client->getAsync(static::TEST_URL),
+        ];
+
+        $responses = unwrap($promises);
+
+        $this->assertEquals(
+            (string)$responses['prom_1']->getBody(),
+            static::TEST_STR
+        );
     }
 }
