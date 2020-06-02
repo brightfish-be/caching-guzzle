@@ -17,22 +17,14 @@ class MiddlewareFeatureTest extends FeatureTestCase
     const TEST_URL = 'https://duckduckgo.com/';
 
     /** @var string */
-    const TEST_STR = 'I\'m a duck!';
+    const TEST_STR_1 = 'I\'m a duck!';
+
+    const TEST_STR_2 = 'I\'m a duck too!';
 
     public function test_caching()
     {
-        $middleware = new Middleware($this->store, 3600);
-
-        $mock = new MockHandler([
-            new Response(200, [], static::TEST_STR),
-            new Response(200, [], static::TEST_STR)
-        ]);
-
-        $stack = HandlerStack::create($mock);
-        $stack->push($middleware);
-
-        $client = new Client([
-            'handler' => $stack
+        $client = $this->getClientWithMockResponses([
+            static::TEST_STR_1,
         ]);
 
         $client->get(static::TEST_URL);
@@ -41,33 +33,45 @@ class MiddlewareFeatureTest extends FeatureTestCase
 
         $cached = $this->store->get($key);
 
-        $this->assertStringContainsString(static::TEST_STR, $cached);
+        $this->assertStringContainsString(static::TEST_STR_1, $cached);
+    }
 
-        # Request with custom key
+    public function test_caching_with_custom_key()
+    {
+        $client = $this->getClientWithMockResponses([
+            static::TEST_STR_2,
+        ]);
 
         $client->get(static::TEST_URL, ['cache_key' => 'test_key']);
 
         $cached = $this->store->get('test_key');
 
-        $this->assertStringContainsString(static::TEST_STR, $cached);
+        $this->assertStringContainsString(static::TEST_STR_2, $cached);
+    }
 
-        // echo PHP_EOL . 'MiddlewareFeatureTest response: ' . $cached . PHP_EOL;
+    public function test_caching_anew()
+    {
+        $client = $this->getClientWithMockResponses([
+            static::TEST_STR_1,
+            static::TEST_STR_2,
+        ]);
+
+        $client->get(static::TEST_URL);
+
+        $client->get(static::TEST_URL, [
+            'cache_anew' => true,
+            'cache_key' => 'test_key',
+        ]);
+
+        $cached = $this->store->get('test_key');
+
+        $this->assertStringContainsString(static::TEST_STR_2, $cached);
     }
 
     public function test_caching_with_promised_request()
     {
-        $middleware = new Middleware($this->store, 3600);
-
-        $mock = new MockHandler([
-            new Response(200, [], static::TEST_STR),
-            new Response(200, [], static::TEST_STR)
-        ]);
-
-        $stack = HandlerStack::create($mock);
-        $stack->push($middleware);
-
-        $client = new Client([
-            'handler' => $stack
+        $client = $this->getClientWithMockResponses([
+            static::TEST_STR_1,
         ]);
 
         $promises = [
@@ -78,7 +82,7 @@ class MiddlewareFeatureTest extends FeatureTestCase
 
         $this->assertEquals(
             (string)$responses['prom_1']->getBody(),
-            static::TEST_STR
+            static::TEST_STR_1
         );
     }
 }

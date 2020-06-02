@@ -39,9 +39,9 @@ class Middleware
 
     /**
      * Cache the laravel cache driver instance.
-     * @param CacheInterface $cache             Cache handler implementation
-     * @param int $ttl                          Default cache duration in seconds
-     * @param bool $log                         Whether to log the cache requests
+     * @param CacheInterface $cache Cache handler implementation
+     * @param int $ttl Default cache duration in seconds
+     * @param bool $log Whether to log the cache requests
      */
     public function __construct(CacheInterface $cache, int $ttl = 60, bool $log = false)
     {
@@ -58,11 +58,19 @@ class Middleware
     public function __invoke(callable $handler): callable
     {
         return function (RequestInterface $request, array $options) use (&$handler) {
+            # By default caching is allowed, else return early
+            if (!($options['cache'] ?? true)) {
+                return $handler($request, $options);
+            }
+
             # Create the cache key
-            $key = $this->makeKey($options, $request->getUri());
+            $key = $this->getKey($request->getUri(), $options['cache_key'] ?? '');
+
+            # Should we bypass current cached value?
+            $bypass = $options['cache_anew'] ?? false;
 
             # Try to get from cache
-            if ($key && $entry = $this->get($key)) {
+            if (!$bypass && $entry = $this->get($key)) {
                 return $entry;
             }
 
@@ -71,7 +79,7 @@ class Middleware
 
             return $promise->then(
                 function (ResponseInterface $response) use ($options, $key) {
-                    if ($key && $ttl = $this->getTTL($options)) {
+                    if ($ttl = $this->getTTL($options)) {
                         $this->save($key, $response, $ttl);
                     }
 
@@ -82,20 +90,14 @@ class Middleware
     }
 
     /**
-     * Create the key which will reference the cache entry.
-     * @param array $options
+     * Either return the custom passed key or the request URL minus the protocol.
      * @param UriInterface $uri
+     * @param string $key
      * @return string
      */
-    protected function makeKey(array $options, UriInterface $uri): string
+    protected function getKey(UriInterface $uri, string $key = ''): string
     {
-        # Does the specific request allow caching?
-        $cache = $options['cache'] ?? true;
-
-        # Either return the custom passed key or the request URL minus the protocol.
-        return $cache
-            ? ($options['cache_key'] ?? preg_replace('#(https?:)#', '', (string)$uri))
-            : '';
+        return $key ?: preg_replace('#(https?:)#', '', (string)$uri);
     }
 
     /**

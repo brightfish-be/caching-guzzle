@@ -16,8 +16,8 @@ class Client extends GuzzleClient
 {
     /**
      * Create a middleware stack and instantiate Guzzle.
-     * {@inheritdoc}
-     * @param array $config
+     * {@inheritDoc}
+     * @param CacheInterface $cache
      */
     public function __construct(CacheInterface $cache, array $config = [])
     {
@@ -30,7 +30,13 @@ class Client extends GuzzleClient
 
         $config['handler']->push(new Middleware($cache, $ttl, $log));
 
-        unset($config['cache'], $config['cache_ttl'], $config['cache_log'], $config['cache_key']);
+        unset(
+            $config['cache'],
+            $config['cache_anew'],
+            $config['cache_ttl'],
+            $config['cache_log'],
+            $config['cache_key']
+        );
 
         parent::__construct($config);
     }
