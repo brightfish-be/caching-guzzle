@@ -16,7 +16,7 @@ class Client extends GuzzleClient
 {
     /**
      * Create a middleware stack and instantiate Guzzle.
-     * {@inheritDoc}
+     * {@inheritdoc}
      * @param CacheInterface $cache
      */
     public function __construct(CacheInterface $cache, array $config = [])
