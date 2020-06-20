@@ -26,12 +26,12 @@ class ClientFeatureTest extends FeatureTestCase
         $client = new Client($this->store, [
             'cache_ttl' => 12345,
             'cache_log' => false,
-            'handler' => $stack
+            'handler' => $stack,
         ]);
 
         # This response will be cached
         $client->get(static::TEST_URL, [
-            'cache_ttl' => 3600
+            'cache_ttl' => 3600,
         ]);
 
         $key = $this->getCacheKeyFromUrl(static::TEST_URL);

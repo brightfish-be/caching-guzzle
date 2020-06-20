@@ -2,14 +2,8 @@
 
 namespace Tests\Feature;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
-use Brightfish\CachingGuzzle\Middleware;
-use GuzzleHttp\Psr7\Response;
-use Tests\FeatureTestCase;
-use function GuzzleHttp\Promise\settle;
 use function GuzzleHttp\Promise\unwrap;
+use Tests\FeatureTestCase;
 
 class MiddlewareFeatureTest extends FeatureTestCase
 {

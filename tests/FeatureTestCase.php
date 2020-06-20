@@ -25,6 +25,7 @@ class FeatureTestCase extends TestCase
     protected function getCacheKeyFromUrl(string $url): string
     {
         $parts = explode(':', $url);
+
         return array_pop($parts);
     }
 

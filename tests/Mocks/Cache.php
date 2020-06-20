@@ -39,6 +39,7 @@ class Cache implements CacheInterface
     public function delete($key)
     {
         unset($this->store[$key]);
+
         return true;
     }
 
@@ -48,6 +49,7 @@ class Cache implements CacheInterface
     public function clear()
     {
         $this->store = [];
+
         return true;
     }
 
@@ -60,6 +62,7 @@ class Cache implements CacheInterface
         foreach ($keys as $key) {
             $r[$key] = $this->get($key, $default);
         }
+
         return $r;
     }
 
@@ -71,6 +74,7 @@ class Cache implements CacheInterface
         foreach ($values as $key => $value) {
             $this->set($key, $value, $ttl);
         }
+
         return true;
     }
 
@@ -82,6 +86,7 @@ class Cache implements CacheInterface
         foreach ($keys as $key) {
             $this->delete($key);
         }
+
         return true;
     }
 
