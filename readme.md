@@ -17,20 +17,16 @@ composer require brightfish/caching-guzzle
 The registration of the caching middleware follows [Guzzle's documentation](http://docs.guzzlephp.org/en/stable/handlers-and-middleware.html#handlers).
 
 ```
-use GuzzleHttp\Client;
-use GuzzleHttp\HandlerStack;
-use Brightfish\CachingGuzzle\Middleware;
-
 /** @var \Psr\SimpleCache\CacheInterface $store */
-$store = app('cache')->store('database'); // Laravel
+$cache = app('cache')->store('database'); // Laravel example
 
-$handler = new Middleware($store);
+$middleware = new \Brightfish\CachingGuzzle\Middleware($cache);
 
-$stack = HandlerStack::create();
+$stack = \GuzzleHttp\HandlerStack::create();
 
-$stack->push($handler);
+$stack->push($middleware);
 
-$client = new Client([
+$client = new \GuzzleHttp\Client([
     'handler' => $stack,
     'base_uri' => 'https://example.org/api/'
 ]);
@@ -60,7 +56,7 @@ $response_1 = $client->get('resource', [
 ### Request anew and update the cache
 ```
 $response_3 = $client->post('resource/84', [
-    'cache_anew' => false
+    'cache_anew' => true
 ]);
 ```
 ### Disable caching
