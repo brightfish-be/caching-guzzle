@@ -1,10 +1,11 @@
-# HTTP cache middleware for Guzzle
+# HTTP caching middleware for Guzzle
 
+[![Tests](https://github.com/brightfish-be/caching-guzzle/workflows/Tests/badge.svg?event=push&style=flat-square)](https://github.com/brightfish-be/caching-guzzle/actions)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/brightfish-be/caching-guzzle?color=blue&label=Latest%20version&style=flat-square)](https://github.com/brightfish-be/caching-guzzle/releases)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/brightfish-be/caching-guzzle/run-tests?label=tests)](https://github.com/brightfish-be/caching-guzzle/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![Packagist](https://img.shields.io/packagist/dt/brightfish/caching-guzzle?label=Total%20downloads&style=flat-square)](https://packagist.org/packages/brightfish/caching-guzzle)
+[![Packagist](https://img.shields.io/packagist/dt/brightfish/caching-guzzle?label=Downloads&style=flat-square)](https://packagist.org/packages/brightfish/caching-guzzle)
 
-Simple caching middleware for [Guzzle](https://github.com/guzzle/guzzle/), works well with [Laravel](https://github.com/laravel) or with any cache system 
+Simple HTTP response caching middleware for [Guzzle 6](https://github.com/guzzle/guzzle/), 
+works well with [Laravel](https://github.com/laravel) or with any caching library 
 implementing the [PSR-16 caching interface](https://www.php-fig.org/psr/psr-16/).  
 
 ## Installation
@@ -13,7 +14,7 @@ composer require brightfish/caching-guzzle
 ```
 
 ## Usage
-The registration of the caching middleware follows [Guzzle's documentation](http://docs.guzzlephp.org/en/stable/handlers-and-middleware.html#handlers).
+The registration of the middleware follows [Guzzle's documentation](http://docs.guzzlephp.org/en/stable/handlers-and-middleware.html#handlers).
 
 ```
 /** @var \Psr\SimpleCache\CacheInterface $store */
