@@ -1,7 +1,6 @@
 {
     "name": "brightfish/caching-guzzle",
     "description": "Cache HTTP responses through Guzzle middleware",
-    "version": "1.3.0",
     "type": "library",
     "keywords": ["guzzle", "middleware", "cache", "laravel", "http-cache"],
     "license": "GPL-3.0-only",
