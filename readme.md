@@ -4,7 +4,7 @@
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/brightfish-be/caching-guzzle?color=blue&label=Latest%20version&style=flat-square)](https://github.com/brightfish-be/caching-guzzle/releases)
 [![Packagist](https://img.shields.io/packagist/dt/brightfish/caching-guzzle?label=Downloads&style=flat-square)](https://packagist.org/packages/brightfish/caching-guzzle)
 
-Simple and transparent HTTP response caching middleware for [Guzzle 6](https://github.com/guzzle/guzzle/), 
+Simple and transparent HTTP response caching middleware for [Guzzle](https://github.com/guzzle/guzzle/), 
 works well with [Laravel](https://github.com/laravel) or with any caching library 
 implementing the [PSR-16 caching interface](https://www.php-fig.org/psr/psr-16/).  
 
