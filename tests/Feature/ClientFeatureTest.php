@@ -11,10 +11,10 @@ use Tests\FeatureTestCase;
 class ClientFeatureTest extends FeatureTestCase
 {
     /** @var string Mock */
-    const TEST_URL = 'https://brave.com/';
+    public const TEST_URL = 'https://brave.com/';
 
     /** @var string */
-    const TEST_STR = 'I\'m a lion!';
+    public const TEST_STR = 'I\'m a lion!';
 
     public function testCaching()
     {

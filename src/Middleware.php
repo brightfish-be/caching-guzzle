@@ -59,7 +59,7 @@ class Middleware
     {
         return function (RequestInterface $request, array $options) use (&$handler) {
             # By default caching is allowed, else return early
-            if (!($options['cache'] ?? true)) {
+            if (! ($options['cache'] ?? true)) {
                 return $handler($request, $options);
             }
 
@@ -70,7 +70,7 @@ class Middleware
             $bypass = $options['cache_anew'] ?? false;
 
             # Try to get from cache
-            if (!$bypass && $entry = $this->get($key)) {
+            if (! $bypass && $entry = $this->get($key)) {
                 return $entry;
             }
 

@@ -3,17 +3,18 @@
 namespace Tests\Feature;
 
 use function GuzzleHttp\Promise\unwrap;
+
 use Tests\FeatureTestCase;
 
 class MiddlewareFeatureTest extends FeatureTestCase
 {
     /** @var string Mock */
-    const TEST_URL = 'https://duckduckgo.com/';
+    public const TEST_URL = 'https://duckduckgo.com/';
 
     /** @var string */
-    const TEST_STR_1 = 'I\'m a duck!';
+    public const TEST_STR_1 = 'I\'m a duck!';
 
-    const TEST_STR_2 = 'I\'m a duck too!';
+    public const TEST_STR_2 = 'I\'m a duck too!';
 
     public function test_caching()
     {
