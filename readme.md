@@ -1,8 +1,8 @@
 # HTTP caching middleware for Guzzle
 
 [![Tests](https://github.com/brightfish-be/caching-guzzle/workflows/Tests/badge.svg?event=push&style=flat-square)](https://github.com/brightfish-be/caching-guzzle/actions)
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/brightfish-be/caching-guzzle?color=blue&label=Latest%20version&style=flat-square)](https://github.com/brightfish-be/caching-guzzle/releases)
-[![Packagist](https://img.shields.io/packagist/dt/brightfish/caching-guzzle?label=Downloads&style=flat-square)](https://packagist.org/packages/brightfish/caching-guzzle)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/brightfish/caching-guzzle.svg?style=flat-square&label=Version)](https://packagist.org/packages/brightfish/caching-guzzle)
+[![Downloads](https://img.shields.io/packagist/dt/brightfish/caching-guzzle?label=Downloads&style=flat-square)](https://packagist.org/packages/brightfish/caching-guzzle)
 
 Simple and transparent HTTP response caching middleware for [Guzzle](https://github.com/guzzle/guzzle/), 
 works well with [Laravel](https://github.com/laravel) or with any caching library 
@@ -113,6 +113,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 - [dotburo](https://github.com/dotburo)
 - [Peter Forret](https://github.com/pforret)
+- [All Contributors](../../contributors)
 
 ## License
 
