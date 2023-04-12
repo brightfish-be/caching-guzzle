@@ -12,7 +12,7 @@ implementing the [PSR-16 caching interface](https://www.php-fig.org/psr/psr-16/)
 The registration of the middleware follows [Guzzle's documentation](http://docs.guzzlephp.org/en/stable/handlers-and-middleware.html#handlers):
 
 ```php
-/** @var \Psr\SimpleCache\CacheInterface $store */
+/** @var \Psr\SimpleCache\CacheInterface $cache */
 $cache = app('cache')->store('database'); // Laravel example, but any PSR-16 cache will do
 
 $middleware = new \Brightfish\CachingGuzzle\Middleware($cache);
@@ -49,25 +49,25 @@ $middleware = new \Brightfish\CachingGuzzle\Middleware($store, $ttl = 60, $log =
 
 ### Example: cache the response for 90s (default: 60)
 ```php
-$response_1 = $client->get('resource', [
+$response_1 = $guzzleClient->get('resource', [
     'cache_ttl' => 90
 ]);
 ```
 ### Example: request anew and update the cache
 ```php
-$response_3 = $client->post('resource/84', [
+$response_3 = $guzzleClient->post('resource/84', [
     'cache_anew' => true
 ]);
 ```
 ### Example: disable caching
 ```php
-$response_2 = $client->post('resource/84', [
+$response_2 = $guzzleClient->post('resource/84', [
     'cache' => false
 ]);
 ```
 ### Example: cache forever with a custom key
 ```php
-$response_4 = $client->post('resource/84', [
+$response_4 = $guzzleClient->post('resource/84', [
     'cache_key' => 'my-key',
     'cache_ttl' => -1
 ]);
@@ -77,10 +77,10 @@ If `cache_ttl` is set to `0` the response will not be cached, but, contrary to `
 ## Example: cache retrieval
 ```php
 # Get response_1 from cache.
-$cached_response_1 = $store->get('//example.org/api/resource');
+$cached_response_1 = $cache->get('//example.org/api/resource');
 
 # Get response_4 from cache.
-$cached_response_4 = $store->get('my-key');
+$cached_response_4 = $cache->get('my-key');
 ```
 
 ## Using the wrapper
