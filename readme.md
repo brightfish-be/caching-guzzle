@@ -8,6 +8,9 @@ Simple and transparent HTTP response caching middleware for [Guzzle](https://git
 works well with [Laravel](https://github.com/laravel) or with any caching library 
 implementing the [PSR-16 caching interface](https://www.php-fig.org/psr/psr-16/).  
 
+## Installation
+You can install the library with Composer: ```composer require brightfish/caching-guzzle```
+
 ## How to use
 The registration of the middleware follows [Guzzle's documentation](http://docs.guzzlephp.org/en/stable/handlers-and-middleware.html#handlers):
 
