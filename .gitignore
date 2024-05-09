@@ -1,7 +1,7 @@
 .swp
 .DS_Store
 .idea
-vendor
+/vendor
 composer.lock
 .phpunit.result.cache
 .php-cs-fixer.cache
