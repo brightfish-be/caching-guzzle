@@ -2,8 +2,7 @@
 
 namespace Tests\Feature;
 
-use function GuzzleHttp\Promise\unwrap;
-
+use GuzzleHttp\Promise\Utils;
 use Tests\FeatureTestCase;
 
 class MiddlewareFeatureTest extends FeatureTestCase
@@ -73,7 +72,7 @@ class MiddlewareFeatureTest extends FeatureTestCase
             'prom_1' => $client->getAsync(static::TEST_URL),
         ];
 
-        $responses = unwrap($promises);
+        $responses = Utils::unwrap($promises);
 
         $this->assertEquals(
             (string)$responses['prom_1']->getBody(),
